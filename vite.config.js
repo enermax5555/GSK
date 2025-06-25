@@ -13,6 +13,5 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true
   },
-  // Adjust this to match your GitHub repository name for GitHub Pages
-  base: '/GSK' // Replace with your repo name
+  base: '/GSK' 
 })
