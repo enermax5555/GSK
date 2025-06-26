@@ -7,6 +7,7 @@ import About from './pages/About';
 import Services from './pages/Services';
 import Contact from './pages/Contact';
 import Gallery from './pages/Gallery';
+import GalleryDetail from './pages/GalleryDetail';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import NotFound from './pages/NotFound';
@@ -29,6 +30,7 @@ const Core: React.FC = () => {
             <Route path="/services" element={<Services />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/gallery" element={<Gallery />} />
+            <Route path="/gallery/:serviceType" element={<GalleryDetail />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
             

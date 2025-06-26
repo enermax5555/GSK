@@ -1,95 +1,181 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import ContactForm from '../components/ContactForm';
+import { Box, Container, Typography, Link, Paper, Card, CardContent } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import EmailIcon from '@mui/icons-material/Email';
+import PhoneIcon from '@mui/icons-material/Phone';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { motion, useInView } from 'framer-motion';
+import { fadeIn, fadeInLeft, fadeInRight, staggerContainer, scaleUp, bounce } from '../utils/animations';
 
 const Contact: React.FC = () => {
+    // Refs for animation sections
+    const headerRef = useRef(null);
+    const infoRef = useRef(null);
+    const formRef = useRef(null);
+    
+    // Check if sections are in view
+    const headerInView = useInView(headerRef, { once: true, amount: 0.2 });
+    const infoInView = useInView(infoRef, { once: true, amount: 0.2 });
+    const formInView = useInView(formRef, { once: true, amount: 0.2 });
+
     return (
-        <div className="py-20">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-16">
-                    <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                        Свържете се с нас
-                    </h1>
-                    <p className="text-xl text-gray-600">
-                        Ние сме на ваше разположение за всички ваши въпроси и проекти
-                    </p>
-                </div>
+        <motion.div 
+            className="py-20"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+        >
+            <Container maxWidth="lg">
+                {/* Header Section */}
+                <motion.div 
+                    ref={headerRef}
+                    initial="hidden"
+                    animate={headerInView ? "visible" : "hidden"}
+                    variants={staggerContainer(0.1)}
+                    className="text-center mb-16"
+                >
+                    <motion.div variants={fadeIn(0.1)}>
+                        <Typography 
+                            variant="h2" 
+                            component="h1" 
+                            fontWeight="bold" 
+                            color="text.primary"
+                            mb={2}
+                            className="text-4xl md:text-5xl"
+                        >
+                            Свържете се с нас
+                        </Typography>
+                    </motion.div>
+                    <motion.div variants={fadeIn(0.2)}>
+                        <Typography 
+                            variant="h6" 
+                            color="text.secondary" 
+                            maxWidth="700px" 
+                            mx="auto"
+                            className="text-xl"
+                        >
+                            Ние сме на ваше разположение за всички ваши въпроси и проекти
+                        </Typography>
+                    </motion.div>
+                </motion.div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    {/* Contact Information */}
-                    <div>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-6">Контакти</h2>
-                        <div className="space-y-6">
-                            <div className="flex items-start">
-                                <div className="flex-shrink-0">
-                                    <span className="text-2xl">📧</span>
-                                </div>
-                                <div className="ml-3">
-                                    <h3 className="text-lg font-medium text-gray-900">Имейл</h3>
-                                    <p className="text-gray-600">office@gsk-build.bg</p>
-                                </div>
-                            </div>
+                {/* Contact Info Cards */}
+                <motion.div 
+                    ref={infoRef}
+                    initial="hidden"
+                    animate={infoInView ? "visible" : "hidden"}
+                    variants={staggerContainer(0.1)}
+                    className="mb-16"
+                >
+                    <Grid container spacing={4} justifyContent="center">
+                        <Grid item xs={12} sm={6} md={3}>
+                            <motion.div variants={scaleUp(0.1)} whileHover={{ y: -5 }}>
+                                <Card elevation={2} className="h-full">
+                                    <CardContent className="text-center p-6">
+                                        <motion.div variants={bounce(0.1)}>
+                                            <EmailIcon color="primary" fontSize="large" className="mb-4" />
+                                        </motion.div>
+                                        <Typography variant="h6" gutterBottom>
+                                            Имейл
+                                        </Typography>
+                                        <Link 
+                                            href="mailto:office@gsk-build.bg" 
+                                            underline="hover" 
+                                            color="text.primary"
+                                            className="hover:text-blue-600 transition-colors"
+                                        >
+                                            office@gsk-build.bg
+                                        </Link>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+                        </Grid>
+                        
+                        <Grid item xs={12} sm={6} md={3}>
+                            <motion.div variants={scaleUp(0.2)} whileHover={{ y: -5 }}>
+                                <Card elevation={2} className="h-full">
+                                    <CardContent className="text-center p-6">
+                                        <motion.div variants={bounce(0.2)}>
+                                            <PhoneIcon color="primary" fontSize="large" className="mb-4" />
+                                        </motion.div>
+                                        <Typography variant="h6" gutterBottom>
+                                            Телефон
+                                        </Typography>
+                                        <Link 
+                                            href="tel:+359888123456" 
+                                            underline="hover" 
+                                            color="text.primary"
+                                            className="hover:text-blue-600 transition-colors"
+                                        >
+                                            +359 888 123 456
+                                        </Link>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+                        </Grid>
+                        
+                        <Grid item xs={12} sm={6} md={3}>
+                            <motion.div variants={scaleUp(0.3)} whileHover={{ y: -5 }}>
+                                <Card elevation={2} className="h-full">
+                                    <CardContent className="text-center p-6">
+                                        <motion.div variants={bounce(0.3)}>
+                                            <LocationOnIcon color="primary" fontSize="large" className="mb-4" />
+                                        </motion.div>
+                                        <Typography variant="h6" gutterBottom>
+                                            Адрес
+                                        </Typography>
+                                        <Typography color="text.secondary">
+                                            Бургас, България
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+                        </Grid>
+                        
+                        <Grid item xs={12} sm={6} md={3}>
+                            <motion.div variants={scaleUp(0.4)} whileHover={{ y: -5 }}>
+                                <Card elevation={2} className="h-full">
+                                    <CardContent className="text-center p-6">
+                                        <motion.div variants={bounce(0.4)}>
+                                            <AccessTimeIcon color="primary" fontSize="large" className="mb-4" />
+                                        </motion.div>
+                                        <Typography variant="h6" gutterBottom>
+                                            Работно време
+                                        </Typography>
+                                        <Typography color="text.secondary">
+                                          8:00 - 17:00
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+                        </Grid>
+                    </Grid>
+                </motion.div>
 
-                            <div className="flex items-start">
-                                <div className="flex-shrink-0">
-                                    <span className="text-2xl">📱</span>
-                                </div>
-                                <div className="ml-3">
-                                    <h3 className="text-lg font-medium text-gray-900">Телефон</h3>
-                                    <p className="text-gray-600">+359 888 123 456</p>
-                                </div>
-                            </div>
-
-                            <div className="flex items-start">
-                                <div className="flex-shrink-0">
-                                    <span className="text-2xl">📍</span>
-                                </div>
-                                <div className="ml-3">
-                                    <h3 className="text-lg font-medium text-gray-900">Офис</h3>
-                                    <p className="text-gray-600">
-                                        гр. София<br />
-                                        ул. "Строителна" 25<br />
-                                        Бизнес център "Строй", офис 304
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="flex items-start">
-                                <div className="flex-shrink-0">
-                                    <span className="text-2xl">🕒</span>
-                                </div>
-                                <div className="ml-3">
-                                    <h3 className="text-lg font-medium text-gray-900">Работно време</h3>
-                                    <p className="text-gray-600">
-                                        Понеделник - Петък: 9:00 - 18:00<br />
-                                        Събота: 10:00 - 14:00<br />
-                                        Неделя: Почивен ден
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Map or Image */}
-                        <div className="mt-8">
-                            <h3 className="text-lg font-medium text-gray-900 mb-4">Нашето местоположение</h3>
-                            <div className="bg-gray-200 h-64 rounded-lg flex items-center justify-center">
-                                <p className="text-gray-600">Карта на местоположението</p>
-                                {/* You can replace this with an actual Google Map integration */}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Contact Form */}
-                    <div className="bg-gray-50 p-8 rounded-lg">
-                        <h2 className="text-2xl font-bold text-gray-900 mb-6">Изпратете ни съобщение</h2>
+                {/* Contact Form Section */}
+                <motion.div 
+                    ref={formRef}
+                    initial="hidden"
+                    animate={formInView ? "visible" : "hidden"}
+                    variants={fadeIn(0.3)}
+                    className="max-w-4xl mx-auto px-4"
+                >
+                    <Paper elevation={3} className="p-6 md:p-8 rounded-lg bg-white">
+                        <Typography 
+                            variant="h5" 
+                            component="h2" 
+                            className="text-center mb-6 font-semibold bg-gray-100 rounded-md border-gray-300 p-4 text-gray-800"
+                        >
+                            Изпратете ни съобщение
+                        </Typography>
                         <ContactForm />
-                        <div className="mt-6 text-sm text-gray-500">
-                            <p>* Всички полета са задължителни</p>
-                            <p className="mt-2">Ще се свържем с вас в рамките на 24 часа след получаване на вашето запитване.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </Paper>
+                </motion.div>
+            </Container>
+        </motion.div>
     );
 };
 
