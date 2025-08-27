@@ -17,7 +17,7 @@ server/.env
 /coverage
 
 # Production build
-# /dist (We're uncommenting this because we need to deploy the dist folder for GitHub Pages)
+/dist
 
 # Misc
 .DS_Store
