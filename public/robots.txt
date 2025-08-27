@@ -1,0 +1,22 @@
+# robots.txt for GSK - Gypsum Board Burgas
+
+# Allow all bots to access all content
+User-agent: *
+Allow: /
+
+# Disallow admin sections
+Disallow: /admin/
+Disallow: /login/
+Disallow: /register/
+
+# Specify important pages
+Allow: /about
+Allow: /services
+Allow: /gallery
+Allow: /contact
+
+# Provide sitemap location
+Sitemap: https://Enermax5555.github.io/GSK/sitemap.xml
+
+# Crawl delay to prevent overloading the server
+Crawl-delay: 10
