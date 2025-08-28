@@ -1,11 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ServiceCard from '../components/ServiceCard';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { fadeIn, fadeInLeft, fadeInRight, staggerContainer, scaleUp } from '../utils/animations';
 import SEO from '../components/SEO';
 
 const Services: React.FC = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    
     // Refs for scroll animations
     const servicesRef = useRef(null);
     const insulationRef = useRef(null);
@@ -17,6 +20,26 @@ const Services: React.FC = () => {
     const insulationInView = useInView(insulationRef, { once: true, amount: 0.2 });
     const demonstrationInView = useInView(demonstrationRef, { once: true, amount: 0.2 });
     const ctaInView = useInView(ctaRef, { once: true, amount: 0.2 });
+
+    // Handle navigation with smooth scroll to top
+    const handleNavigation = (path: string) => (event: React.MouseEvent) => {
+        event.preventDefault();
+        
+        // If we're already on the same page, just scroll to top smoothly
+        if (location.pathname === path) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        } else {
+            // Otherwise navigate to the new page and then scroll to top
+            navigate(path);
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    };
 
     const services = [
         {
@@ -276,9 +299,9 @@ const Services: React.FC = () => {
                         className="max-w-4xl mx-auto mb-8"
                         variants={fadeIn(0.5)}
                     >
-                        <VideoPlayer 
-                            videoSrc={"https://www.youtube.com/watch?v=g42zVBIvMMQ"} 
-                            thumbnailSrc={"https://i.ibb.co/qL4rnrSP/79c9b1923820.jpg"}
+                        <YouTubeEmbed 
+                            videoId="g42zVBIvMMQ"
+                            thumbnailSrc="https://i.ibb.co/qL4rnrSP/79c9b1923820.jpg"
                         />
                         
                         <motion.p 
@@ -436,12 +459,12 @@ const Services: React.FC = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        <Link 
-                            to="/contact" 
-                            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200 inline-block"
+                        <button 
+                            onClick={handleNavigation('/contact')}
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200 inline-block cursor-pointer"
                         >
                             Свържете се с нас
-                        </Link>
+                        </button>
                     </motion.div>
                 </motion.div>
             </div>
@@ -451,179 +474,36 @@ const Services: React.FC = () => {
 
 export default Services;
 
-// Custom Video Player Component
-const VideoPlayer: React.FC<{ videoSrc: string; thumbnailSrc: string }> = ({ videoSrc, thumbnailSrc }) => {
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const videoContainerRef = useRef<HTMLDivElement>(null);
-    const [isHovering, setIsHovering] = useState(false);
+// Custom YouTube Embed Component
+const YouTubeEmbed: React.FC<{ videoId: string; thumbnailSrc?: string }> = ({ videoId, thumbnailSrc }) => {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [isFullscreen, setIsFullscreen] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
-    
-    // Check if device is mobile
-    useEffect(() => {
-        const checkMobile = () => {
-            const userAgent = navigator.userAgent.toLowerCase();
-            const isMobileDevice = /iphone|ipad|ipod|android|blackberry|windows phone/g.test(userAgent);
-            setIsMobile(isMobileDevice || window.innerWidth < 768);
-        };
-        
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
-    
-    // Reset video when it ends
-    const handleVideoEnd = () => {
-        if (videoRef.current) {
-            videoRef.current.currentTime = 0;
-            videoRef.current.pause();
-            setIsPlaying(false);
-        }
+
+    const handlePlay = () => {
+        setIsPlaying(true);
     };
-    
-    // Handle play/pause
-    const togglePlay = (e: React.MouseEvent) => {
-        // Don't handle if using mobile native controls
-        if (isMobile) return;
-        
-        // Don't toggle play if clicking on the fullscreen button
-        if ((e.target as HTMLElement).closest('.fullscreen-button')) {
-            return;
-        }
-        
-        if (videoRef.current) {
-            if (videoRef.current.paused) {
-                videoRef.current.play();
-                setIsPlaying(true);
-            } else {
-                videoRef.current.pause();
-                setIsPlaying(false);
-            }
-        }
-    };
-    
-    // Handle fullscreen toggle
-    const toggleFullscreen = (e: React.MouseEvent) => {
-        e.stopPropagation(); // Prevent video play/pause
-        
-        if (!videoContainerRef.current || !videoRef.current) return;
-        
-        if (!isFullscreen) {
-            // Try to use the video element directly for better mobile support
-            if (videoRef.current.requestFullscreen) {
-                videoRef.current.requestFullscreen();
-            } else if ((videoRef.current as any).webkitEnterFullscreen) {
-                // iOS Safari
-                (videoRef.current as any).webkitEnterFullscreen();
-            } else if ((videoRef.current as any).webkitRequestFullscreen) {
-                // Chrome, Safari and Opera
-                (videoRef.current as any).webkitRequestFullscreen();
-            } else if ((videoRef.current as any).mozRequestFullScreen) {
-                // Firefox
-                (videoRef.current as any).mozRequestFullScreen();
-            } else if ((videoRef.current as any).msRequestFullscreen) {
-                // IE/Edge
-                (videoRef.current as any).msRequestFullscreen();
-            } else {
-                // Fallback to container
-                if (videoContainerRef.current.requestFullscreen) {
-                    videoContainerRef.current.requestFullscreen();
-                }
-            }
-            setIsFullscreen(true);
-        } else {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if ((document as any).webkitExitFullscreen) {
-                (document as any).webkitExitFullscreen();
-            } else if ((document as any).mozCancelFullScreen) {
-                (document as any).mozCancelFullScreen();
-            } else if ((document as any).msExitFullscreen) {
-                (document as any).msExitFullscreen();
-            }
-            setIsFullscreen(false);
-        }
-    };
-    
-    // Listen for fullscreen change
-    useEffect(() => {
-        const handleFullscreenChange = () => {
-            setIsFullscreen(!!document.fullscreenElement);
-        };
-        
-        document.addEventListener('fullscreenchange', handleFullscreenChange);
-        return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
-    }, []);
-    
-    // Listen for video play/pause events to update state
-    useEffect(() => {
-        const video = videoRef.current;
-        if (!video) return;
-        
-        const handlePlay = () => setIsPlaying(true);
-        const handlePause = () => setIsPlaying(false);
-        
-        video.addEventListener('play', handlePlay);
-        video.addEventListener('pause', handlePause);
-        
-        return () => {
-            video.removeEventListener('play', handlePlay);
-            video.removeEventListener('pause', handlePause);
-        };
-    }, []);
-    
+
     return (
         <motion.div
             className="relative group cursor-pointer"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.3 }}
-            onHoverStart={() => setIsHovering(true)}
-            onHoverEnd={() => setIsHovering(false)}
-            onClick={togglePlay}
-            ref={videoContainerRef}
         >
             {/* Video Container with Gradient Border */}
             <div className="relative p-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-xl">
-                <motion.video
-                    ref={videoRef}
-                    className="w-full rounded-lg shadow-2xl bg-black"
-                    preload="metadata"
-                    playsInline // Important for iOS
-                    controls={isMobile ? true : false} // Native controls on mobile for better usability
-                    style={{ aspectRatio: '16/9' }}
-                    onEnded={handleVideoEnd}
-                >
-                    <source src={videoSrc} type="video/mp4" />
-                    <source src={videoSrc} type="video/quicktime" />
-                    Вашият браузър не поддържа видео елемента.
-                </motion.video>
-            </div>
-            
-            {/* Subtle Glow Effect */}
-            <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
-            
-            {/* Thumbnail Overlay */}
-            <AnimatePresence>
-                {!isPlaying && (
-                    <motion.div 
-                        className="absolute inset-0 rounded-lg overflow-hidden"
-                        initial={{ opacity: 1 }}
-                        animate={{ opacity: isHovering ? 0 : 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        <div className="relative w-full h-full">
+                <div className="relative w-full rounded-lg shadow-2xl bg-black" style={{ aspectRatio: '16/9' }}>
+                    {!isPlaying ? (
+                        <div 
+                            className="relative w-full h-full cursor-pointer group"
+                            onClick={handlePlay}
+                        >
                             <img 
-                                src={thumbnailSrc} 
-                                alt="Video thumbnail" 
-                                className="w-full h-full object-cover rounded-lg"
-                                style={{ aspectRatio: '16/9' }}
+                                src={thumbnailSrc || `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+                                alt="Video thumbnail"
+                                className="w-full h-full object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
                             />
-                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center rounded-lg">
                                 <motion.div
-                                    className="bg-blue-600/70 backdrop-blur-sm rounded-full p-6 shadow-lg"
+                                    className="bg-red-600/80 backdrop-blur-sm rounded-full p-6 shadow-lg transition-all duration-300 group-hover:bg-red-700/80"
                                     animate={{ 
                                         scale: [1, 1.05, 1],
                                         boxShadow: [
@@ -642,81 +522,23 @@ const VideoPlayer: React.FC<{ videoSrc: string; thumbnailSrc: string }> = ({ vid
                                 </motion.div>
                             </div>
                         </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-            
-            {/* Video Controls Overlay - Only show custom controls on non-mobile or when mobile controls are hidden */}
-            {!isMobile && (
-                <motion.div 
-                    className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: isHovering ? 1 : 0 }}
-                    transition={{ duration: 0.3 }}
-                >
-                    {/* Play/Pause Button */}
-                    <motion.div
-                        className="bg-blue-600/80 backdrop-blur-sm rounded-full p-4 shadow-lg hover:bg-blue-700/80 transition-colors duration-200"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        transition={{ duration: 0.2 }}
-                    >
-                        <div className="w-12 h-12 flex items-center justify-center">
-                            {isPlaying ? (
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="6" y="4" width="4" height="16" rx="1" fill="white" />
-                                    <rect x="14" y="4" width="4" height="16" rx="1" fill="white" />
-                                </svg>
-                            ) : (
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8 5V19L19 12L8 5Z" fill="white" />
-                                </svg>
-                            )}
-                        </div>
-                    </motion.div>
-                    
-                    {/* Fullscreen Button - Larger and more visible */}
-                    <div 
-                        className="absolute bottom-4 right-4 fullscreen-button z-10"
-                        onClick={toggleFullscreen}
-                    >
-                        <motion.div
-                            className="bg-blue-600/80 backdrop-blur-sm rounded-lg p-3 shadow-lg cursor-pointer hover:bg-blue-700/80 transition-colors duration-200"
-                            whileHover={{ scale: 1.1 }}
-                            transition={{ duration: 0.2 }}
-                        >
-                            {isFullscreen ? (
-                                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"></path>
-                                </svg>
-                            ) : (
-                                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3 8V5h3v2H5v1H3zm2 9H3v-3h2v1h1v2zm8-3h-1v-1h3v3h-2v-2zm2-7h-1V5h-2V3h5v5h-2V7z"></path>
-                                </svg>
-                            )}
-                        </motion.div>
-                    </div>
-                </motion.div>
-            )}
-            
-            {/* Mobile-specific Fullscreen Button - Always visible on mobile */}
-            {isMobile && !isPlaying && (
-                <div 
-                    className="absolute bottom-4 right-4 fullscreen-button z-20"
-                    onClick={toggleFullscreen}
-                >
-                    <motion.div
-                        className="bg-blue-600 rounded-lg p-3 shadow-lg cursor-pointer"
-                        initial={{ scale: 1 }}
-                        animate={{ scale: [1, 1.1, 1] }}
-                        transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-                    >
-                        <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 8V5h3v2H5v1H3zm2 9H3v-3h2v1h1v2zm8-3h-1v-1h3v3h-2v-2zm2-7h-1V5h-2V3h5v5h-2V7z"></path>
-                        </svg>
-                    </motion.div>
+                    ) : (
+                        <iframe
+                            width="100%"
+                            height="100%"
+                            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&showinfo=0`}
+                            title="YouTube video player"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                            className="w-full h-full rounded-lg"
+                        />
+                    )}
                 </div>
-            )}
+            </div>
+            
+            {/* Subtle Glow Effect */}
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
         </motion.div>
     );
 };
