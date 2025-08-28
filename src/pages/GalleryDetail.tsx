@@ -10,6 +10,7 @@ const GalleryDetail: React.FC = () => {
   const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
   
   // Service names mapping for display purposes
   const serviceNames: Record<string, string> = {
@@ -102,14 +103,55 @@ const GalleryDetail: React.FC = () => {
   }, [serviceType]);
 
   const openLightbox = (imageSrc: string) => {
+    const index = images.indexOf(imageSrc);
+    setSelectedImageIndex(index);
     setSelectedImage(imageSrc);
     document.body.style.overflow = 'hidden'; // Prevent scrolling when lightbox is open
   };
 
   const closeLightbox = () => {
     setSelectedImage(null);
+    setSelectedImageIndex(0);
     document.body.style.overflow = 'auto'; // Restore scrolling
   };
+
+  const goToPrevious = () => {
+    if (images.length === 0) return;
+    const newIndex = selectedImageIndex > 0 ? selectedImageIndex - 1 : images.length - 1;
+    setSelectedImageIndex(newIndex);
+    setSelectedImage(images[newIndex]);
+  };
+
+  const goToNext = () => {
+    if (images.length === 0) return;
+    const newIndex = selectedImageIndex < images.length - 1 ? selectedImageIndex + 1 : 0;
+    setSelectedImageIndex(newIndex);
+    setSelectedImage(images[newIndex]);
+  };
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (!selectedImage) return;
+      
+      switch (event.key) {
+        case 'Escape':
+          closeLightbox();
+          break;
+        case 'ArrowLeft':
+          event.preventDefault();
+          goToPrevious();
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          goToNext();
+          break;
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [selectedImage, selectedImageIndex, images]);
 
   return (
     <div className="py-20">
@@ -168,20 +210,63 @@ const GalleryDetail: React.FC = () => {
             onClick={closeLightbox}
           >
             <div className="relative max-w-5xl max-h-[90vh] w-full">
+              {/* Close button */}
               <button 
-                className="absolute top-4 right-4 text-white hover:text-gray-300 z-10"
+                className="absolute top-4 right-4 text-white hover:text-gray-300 z-10 bg-black bg-opacity-50 rounded-full p-2 transition-colors"
                 onClick={closeLightbox}
+                title="Затвори (Esc)"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
+
+              {/* Previous button */}
+              {images.length > 1 && (
+                <button 
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 z-10 bg-black bg-opacity-50 rounded-full p-3 transition-colors"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goToPrevious();
+                  }}
+                  title="Предишна снимка (←)"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+              )}
+
+              {/* Next button */}
+              {images.length > 1 && (
+                <button 
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 z-10 bg-black bg-opacity-50 rounded-full p-3 transition-colors"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goToNext();
+                  }}
+                  title="Следваща снимка (→)"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              )}
+
+              {/* Image */}
               <img 
                 src={selectedImage} 
-                alt="Увеличена снимка" 
+                alt={`Снимка ${selectedImageIndex + 1} от ${images.length}`} 
                 className="max-h-[85vh] max-w-full mx-auto object-contain"
                 onClick={(e) => e.stopPropagation()}
               />
+
+              {/* Image counter */}
+              {images.length > 1 && (
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white bg-black bg-opacity-50 px-3 py-1 rounded-full text-sm">
+                  {selectedImageIndex + 1} / {images.length}
+                </div>
+              )}
             </div>
           </div>
         )}
