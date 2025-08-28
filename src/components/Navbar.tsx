@@ -22,7 +22,6 @@ import InfoIcon from '@mui/icons-material/Info';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import ContactsIcon from '@mui/icons-material/Contacts';
-import LoginIcon from '@mui/icons-material/Login';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
@@ -154,24 +153,6 @@ const Navbar: React.FC = () => {
                   {item.text}
                 </Button>
               ))}
-              <Button 
-                component={Link} 
-                to="/login"
-                onClick={handleNavigation('/login')}
-                variant="outlined" 
-                startIcon={<LoginIcon />}
-                sx={{ 
-                  ml: 2, 
-                  color: 'white', 
-                  borderColor: 'white',
-                  '&:hover': {
-                    bgcolor: 'rgba(255, 255, 255, 0.1)',
-                    borderColor: 'white'
-                  }
-                }}
-              >
-                Вход
-              </Button>
             </Box>
           )}
 
@@ -220,17 +201,6 @@ const Navbar: React.FC = () => {
                     <ListItemText primary={item.text} />
                   </ListItem>
                 ))}
-                <ListItem 
-                  component={Link} 
-                  to="/login"
-                  onClick={handleNavigation('/login')}
-                  sx={{ mt: 2 }}
-                >
-                  <ListItemIcon sx={{ minWidth: '40px' }}>
-                    <LoginIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary="Вход" />
-                </ListItem>
               </List>
             </Box>
           </Drawer>
