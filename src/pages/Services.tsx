@@ -277,7 +277,7 @@ const Services: React.FC = () => {
                         variants={fadeIn(0.5)}
                     >
                         <VideoPlayer 
-                            videoSrc={"https://www.youtube.com/watch?v=YOUR_YOUTUBE_VIDEO_ID"} 
+                            videoSrc={"https://www.youtube.com/watch?v=g42zVBIvMMQ"} 
                             thumbnailSrc={"https://i.ibb.co/qL4rnrSP/79c9b1923820.jpg"}
                         />
                         
