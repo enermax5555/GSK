@@ -1,13 +1,5 @@
 #!/usr/bin/env node
 
-/**
- * Script to upload images to ImageBB and generate a mapping file
- * 
- * To use this script:
- * 1. Get an ImageBB API key from https://api.imgbb.com/
- * 2. Run: IMGBB_API_KEY=your_api_key node upload-to-imgur.js
- */
-
 import fs from 'fs';
 import path from 'path';
 import https from 'https';
