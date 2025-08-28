@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 import { fadeIn, fadeInLeft, fadeInRight, staggerContainer, scaleUp } from '../utils/animations';
-import { getImagePath } from '../utils/helpers';
 import SEO from '../components/SEO';
 
 const About: React.FC = () => {
@@ -52,7 +51,7 @@ const About: React.FC = () => {
                         variants={fadeIn(0.1)}
                     >
                         {/* <img 
-                            src={"https://picsum.photos/800/600?random=810"} 
+                            src={"https://i.ibb.co/LDPFCmqz/65c96ec3b9c1.png"} 
                             alt="GSK Logo" 
                             className="h-24 w-auto rounded-md shadow-md" 
                         /> */}

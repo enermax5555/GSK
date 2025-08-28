@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
-// Helper function to handle base path for GitHub Pages deployment
-const getImagePath = (path: string) => {
-  return process.env.NODE_ENV === 'production' ? `/GSK${path}` : path;
-};
-
 type GalleryParams = {
   serviceType?: string;
 };
@@ -38,58 +33,62 @@ const GalleryDetail: React.FC = () => {
       // In a real implementation, you'd fetch this from your backend
       const serviceImages: Record<string, string[]> = {
         'PregradniSteni': [
-          "https://picsum.photos/800/600?random=841",
-          "https://picsum.photos/800/600?random=799",
-          "https://picsum.photos/800/600?random=278",
-          "https://picsum.photos/800/600?random=757",
-          "https://picsum.photos/800/600?random=236",
-          "https://picsum.photos/800/600?random=715",
-          "https://picsum.photos/800/600?random=194",
-          "https://picsum.photos/800/600?random=97",
-          "https://picsum.photos/800/600?random=385"
+          "https://i.ibb.co/6csnYHVP/1556e4b96745.jpg",
+          "https://i.ibb.co/SDCPmcTJ/f7ffded5042f.jpg",
+          "https://i.ibb.co/1tgQ70t8/988c66d7f99d.jpg",
+          "https://i.ibb.co/b5LJtLWv/340861be3915.jpg",
+          "https://i.ibb.co/8nM5PBqg/22b39103e2fe.jpg",
+          "https://i.ibb.co/G4ky3VR4/57d88072f576.jpg",
+          "https://i.ibb.co/v6m5nj4k/6a6148f0b79f.jpg",
+          "https://i.ibb.co/Tx8F4Lwv/0a5bbb3c5c21.jpg"
         ],
         'PredStenni': [
-          "https://picsum.photos/800/600?random=145",
-          "https://picsum.photos/800/600?random=624",
-          "https://picsum.photos/800/600?random=103",
-          "https://picsum.photos/800/600?random=358",
-          "https://picsum.photos/800/600?random=837",
-          "https://picsum.photos/800/600?random=316",
-          "https://picsum.photos/800/600?random=795",
-          "https://picsum.photos/800/600?random=101",
-          "https://picsum.photos/800/600?random=977",
-          "https://picsum.photos/800/600?random=1",
-          "https://picsum.photos/800/600?random=617"
+          "https://i.ibb.co/fdQhZZ68/3e3e7847edf1.jpg",
+          "https://i.ibb.co/LzfZZHMt/d6fa71ed1815.jpg",
+          "https://i.ibb.co/4nGvrGNF/88d6b4f30693.jpg",
+          "https://i.ibb.co/JWcfcRS5/cf1a7d5b6b08.jpg",
+          "https://i.ibb.co/SDpWytWm/2006f810b613.jpg",
+          "https://i.ibb.co/kgKdv4Tx/9954fd16b730.jpg",
+          "https://i.ibb.co/MDmM60gQ/5616cd33985a.jpg",
+          "https://i.ibb.co/6R9s1sKh/288c890d0b93.jpg",
+          "https://i.ibb.co/Cp9BdKNj/216f394bb74f.jpg",
+          "https://i.ibb.co/nMSHfpCZ/f78ab5000830.jpg",
+          "https://i.ibb.co/2rKzHhV/7764e88f3b5d.jpg",
+          "https://i.ibb.co/5xnZkwdx/bac6b16bd7c7.jpg",
+          "https://i.ibb.co/N6mRW52W/e1703c40efb3.jpg",
+          "https://i.ibb.co/HD1B7rKq/0d21cabe1336.jpg",
+          "https://i.ibb.co/Txc7Rzvb/d96eb31b0160.jpg",
+          "https://i.ibb.co/Q71H11zH/45a08cc56fa5.jpg",
+          "https://i.ibb.co/chjw9C63/964ae40ce051.jpg",
+          "https://i.ibb.co/hx8YT300/b87ef5b35529.jpg",
+          "https://i.ibb.co/WN48wfwz/c3535c90944b.jpg"
         ],
         'Oblicovki': [
-          "https://picsum.photos/800/600?random=260",
-          "https://picsum.photos/800/600?random=539"
+          "https://i.ibb.co/FkzD0vGx/bd5e381875c9.jpg"
         ],
         'OkacheniTavani': [
-          "https://picsum.photos/800/600?random=391",
-          "https://picsum.photos/800/600?random=975",
-          "https://picsum.photos/800/600?random=209",
-          "https://picsum.photos/800/600?random=730",
-          "https://picsum.photos/800/600?random=251",
-          "https://picsum.photos/800/600?random=772",
-          "https://picsum.photos/800/600?random=293",
-          "https://picsum.photos/800/600?random=814",
-          "https://picsum.photos/800/600?random=335",
-          "https://picsum.photos/800/600?random=881",
-          "https://picsum.photos/800/600?random=360",
-          "https://picsum.photos/800/600?random=839",
-          "https://picsum.photos/800/600?random=797",
-          "https://picsum.photos/800/600?random=276",
-          "https://picsum.photos/800/600?random=755",
-          "https://picsum.photos/800/600?random=112"
+          "https://i.ibb.co/Q71H11zH/45a08cc56fa5.jpg",
+          "https://i.ibb.co/jkrTBdmH/6a865398f809.jpg",
+          "https://i.ibb.co/svCY9v0j/c39b2bc2002e.jpg",
+          "https://i.ibb.co/27BK26Sv/a93af2bfbad1.jpg",
+          "https://i.ibb.co/M5NphLMY/b1a81f5c984f.jpg",
+          "https://i.ibb.co/xqQYQDph/bb4fec05f577.jpg",
+          "https://i.ibb.co/3yZndg5y/565d6ff9257f.jpg",
+          "https://i.ibb.co/kVG7qq1c/8aa57a203d6d.jpg",
+          "https://i.ibb.co/vn8GGBQ/50c9d4859b45.jpg",
+          "https://i.ibb.co/QF9cbrRN/d99776d29384.jpg",
+          "https://i.ibb.co/gbJqHfXs/de4ee41233c3.jpg",
+          "https://i.ibb.co/TqbkHcDd/9e94a512050b.jpg",
+          "https://i.ibb.co/6J80kn8D/46d29b329e83.jpg",
+          "https://i.ibb.co/TM2jyd07/5950f8c28ec1.jpg",
+          "https://i.ibb.co/JjkmkmXS/ab6496ea0344.jpg"
         ],
         'PVCtavani': [
-          "https://picsum.photos/800/600?random=293"
+          "https://i.ibb.co/Rk1BmZZq/79347d2decea.jpg"
         ],
         'RasterniTavani': [
-          "https://picsum.photos/800/600?random=623",
-          "https://picsum.photos/800/600?random=144",
-          "https://picsum.photos/800/600?random=97"
+          "https://i.ibb.co/n8V8NKJx/501b889f28bf.jpg",
+          "https://i.ibb.co/XHdqKpD/497e4662dc49.jpg"
         ]
       };
 

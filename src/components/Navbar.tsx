@@ -23,7 +23,6 @@ import ConstructionIcon from '@mui/icons-material/Construction';
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import LoginIcon from '@mui/icons-material/Login';
-import { getImagePath } from '../utils/helpers';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
@@ -98,7 +97,7 @@ const Navbar: React.FC = () => {
             }}
           >
             <img 
-              src={"https://picsum.photos/800/600?random=209"} 
+              src={"https://i.ibb.co/LDPFCmqz/65c96ec3b9c1.png"} 
               alt="GSK Logo" 
               style={{ 
                 height: 70, 

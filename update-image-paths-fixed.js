@@ -117,6 +117,8 @@ function replaceGalleryServiceImages(filePath, urlMapping) {
   
   return updated;
 }
+
+function replaceGalleryImages(filePath, urlMapping) {
   let content = fs.readFileSync(filePath, 'utf8');
   let updated = false;
 
@@ -158,40 +160,6 @@ function replaceGalleryServiceImages(filePath, urlMapping) {
   if (updated) {
     fs.writeFileSync(filePath, content);
     console.log(`✓ Updated gallery images in ${filePath}`);
-  }
-  
-  return updated;
-}
-
-function replaceGalleryServiceImages(filePath, urlMapping) {
-  let content = fs.readFileSync(filePath, 'utf8');
-  let updated = false;
-  
-  // Map service titles to main images
-  const serviceImageMap = {
-    'Преградни стени': urlMapping['assets/Images/PregradniSteni/PregradniSteniMain.jpg'],
-    'Предстенни обшивки': urlMapping['assets/Images/PredStenni/PredStenniMain.jpg'],
-    'Обшивки и облицовки': urlMapping['assets/Images/Oblicovki/OblicovkiMain.jpg'],
-    'Окачени тавани от гипсокартон': urlMapping['assets/Images/OkacheniTavani/OkacheniTavaniMain.JPEG'],
-    'Окачени PVC тавани': urlMapping['assets/Images/PVCtavani/PVCtavaniMain.jpg'],
-    'Растерни тавани': urlMapping['assets/Images/RasterniTavani/RasterniTavaniMain.jpg']
-  };
-
-  // Replace gallery service images
-  Object.entries(serviceImageMap).forEach(([serviceTitle, imageUrl]) => {
-    if (imageUrl) {
-      // Look for patterns like 'title: 'Преградни стени', imageSrc: "https://picsum.photos/800/600?random=48",'
-      const pattern = new RegExp(`(title:\\s*['"]${serviceTitle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"][^}]*?imageSrc:\\s*)["'][^"']*["']`, 'g');
-      if (pattern.test(content)) {
-        content = content.replace(pattern, `$1"${imageUrl}"`);
-        updated = true;
-      }
-    }
-  });
-
-  if (updated) {
-    fs.writeFileSync(filePath, content);
-    console.log(`✓ Updated gallery service images in ${filePath}`);
   }
   
   return updated;
@@ -257,7 +225,7 @@ function main() {
       }
     }
   });
-  
+
   console.log(`\nUpdated ${updatedCount} files with new ImageBB URLs`);
   
   // Also update the helpers.ts file to remove getImagePath function

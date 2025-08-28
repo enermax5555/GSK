@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getImagePath } from '../utils/helpers';
 
 const Footer: React.FC = () => {
   return (
@@ -11,7 +10,7 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-bold flex items-center">
               <img 
-                src={"https://picsum.photos/800/600?random=810"} 
+                src={"https://i.ibb.co/LDPFCmqz/65c96ec3b9c1.png"} 
                 alt="GSK Logo" 
                 className="h-10 w-auto mr-3 rounded"
               />
@@ -73,7 +72,7 @@ const Footer: React.FC = () => {
             </p>
             <p className="flex items-start">
               <span className="text-blue-400 mr-2">📍</span>
-              <span>гр. Бургас, ул. Примерна 123</span>
+              <span>гр. Бургас</span>
             </p>
           </div>
         </div>

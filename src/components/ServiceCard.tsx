@@ -2,11 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Modal from './Modal';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Helper function to handle base path for GitHub Pages deployment
-const getImagePath = (path: string) => {
-  return process.env.NODE_ENV === 'production' ? `/GSK${path}` : path;
-};
-
 interface ServiceDetailContent {
   icon: string;
   title: string;

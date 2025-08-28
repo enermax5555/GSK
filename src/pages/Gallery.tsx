@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 import { fadeIn, fadeInLeft, fadeInRight, staggerContainer, scaleUp } from '../utils/animations';
-import { getImagePath } from '../utils/helpers';
 import SEO from '../components/SEO';
 
 const Gallery: React.FC = () => {
@@ -15,32 +14,32 @@ const Gallery: React.FC = () => {
     const services = [
         {
             title: 'Преградни стени',
-            imageSrc: "https://picsum.photos/800/600?random=48",
+            imageSrc: "https://i.ibb.co/yFs7M2TY/7c8120a55556.jpg",
             link: '/gallery/PregradniSteni'
         },
         {
             title: 'Предстенни обшивки',
-            imageSrc: "https://picsum.photos/800/600?random=648",
+            imageSrc: "https://i.ibb.co/FkBss5gy/0384b11692d6.jpg",
             link: '/gallery/PredStenni'
         },
         {
             title: 'Обшивки и облицовки',
-            imageSrc: "https://picsum.photos/800/600?random=774",
+            imageSrc: "https://i.ibb.co/N6mRW52W/e1703c40efb3.jpg",
             link: '/gallery/Oblicovki'
         },
         {
             title: 'Окачени тавани от гипсокартон',
-            imageSrc: "https://picsum.photos/800/600?random=513",
+            imageSrc: "https://i.ibb.co/qL4rnrSP/79c9b1923820.jpg",
             link: '/gallery/OkacheniTavani'
         },
         {
             title: 'Окачени PVC тавани',
-            imageSrc: "https://picsum.photos/800/600?random=690",
+            imageSrc: "https://i.ibb.co/Rk1BmZZq/79347d2decea.jpg",
             link: '/gallery/PVCtavani'
         },
         {
             title: 'Растерни тавани',
-            imageSrc: "https://picsum.photos/800/600?random=240",
+            imageSrc: "https://i.ibb.co/RkMSTXyf/bba876ba30fb.jpg",
             link: '/gallery/RasterniTavani'
         }
     ];
@@ -59,7 +58,7 @@ const Gallery: React.FC = () => {
                 keywords="галерия гипсокартон Бургас, проекти гипсокартон, монтаж гипсокартон снимки, преградни стени снимки, окачени тавани снимки"
                 schemaType="WebPage"
                 canonicalUrl="/gallery"
-                imageUrl="https://picsum.photos/800/600?random=112"
+                imageUrl="https://i.ibb.co/yFs7M2TY/7c8120a55556.jpg"
             />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <motion.div 

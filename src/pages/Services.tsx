@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import ServiceCard from '../components/ServiceCard';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { fadeIn, fadeInLeft, fadeInRight, staggerContainer, scaleUp } from '../utils/animations';
-import { getImagePath } from '../utils/helpers';
 import SEO from '../components/SEO';
 
 const Services: React.FC = () => {
@@ -23,7 +22,7 @@ const Services: React.FC = () => {
         {
             title: 'Преградни стени',
             description: 'Функционално вътрешно разпределение с помощта на гипсокартон',
-            imageSrc: "https://picsum.photos/800/600?random=385",
+            imageSrc: "https://i.ibb.co/yFs7M2TY/7c8120a55556.jpg",
             imageFolder: 'PregradniSteni',
             detailContent: {
                 icon: '🧱',
@@ -41,7 +40,7 @@ const Services: React.FC = () => {
         {
             title: 'Предстенни обшивки',
             description: 'Изправяне и изолиране на вътрешни стени с гипсокартон',
-            imageSrc: "https://picsum.photos/800/600?random=617",
+            imageSrc: "https://i.ibb.co/FkBss5gy/0384b11692d6.jpg",
             imageFolder: 'PredStenni',
             detailContent: {
                 icon: '🧱',
@@ -59,7 +58,7 @@ const Services: React.FC = () => {
         {
             title: 'Обшивки и облицовки',
             description: 'Решения за скриване на тръби, колони, греди и инсталации',
-            imageSrc: "https://picsum.photos/800/600?random=539",
+            imageSrc: "https://i.ibb.co/N6mRW52W/e1703c40efb3.jpg",
             imageFolder: 'Oblicovki',
             detailContent: {
                 icon: '🧱',
@@ -77,7 +76,7 @@ const Services: React.FC = () => {
         {
             title: 'Окачени тавани от гипсокартон',
             description: 'Модерен и многофункционален избор за всеки интериор',
-            imageSrc: "https://picsum.photos/800/600?random=112",
+            imageSrc: "https://i.ibb.co/qL4rnrSP/79c9b1923820.jpg",
             imageFolder: 'OkacheniTavani',
             detailContent: {
                 icon: '🧰',
@@ -95,7 +94,7 @@ const Services: React.FC = () => {
         {
             title: 'Окачени PVC тавани',
             description: 'Бързо, хигиенично и влагоустойчиво решение',
-            imageSrc: "https://picsum.photos/800/600?random=293",
+            imageSrc: "https://i.ibb.co/Rk1BmZZq/79347d2decea.jpg",
             imageFolder: 'PVCtavani',
             detailContent: {
                 icon: '🧰',
@@ -113,7 +112,7 @@ const Services: React.FC = () => {
         {
             title: 'Растерни тавани',
             description: 'Функционално и лесно достъпно решение за офиси и търговски обекти',
-            imageSrc: "https://picsum.photos/800/600?random=97",
+            imageSrc: "https://i.ibb.co/RkMSTXyf/bba876ba30fb.jpg",
             imageFolder: 'RasterniTavani',
             detailContent: {
                 icon: '🧱',
@@ -143,7 +142,7 @@ const Services: React.FC = () => {
                 keywords="услуги гипсокартон Бургас, преградни стени, окачени тавани, предстенни обшивки, растерни тавани, акустични тавани, топлоизолация, звукоизолация"
                 schemaType="Service"
                 canonicalUrl="/services"
-                imageUrl="https://picsum.photos/800/600?random=385"
+                imageUrl="https://i.ibb.co/yFs7M2TY/7c8120a55556.jpg"
             />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <motion.div 
@@ -278,8 +277,8 @@ const Services: React.FC = () => {
                         variants={fadeIn(0.5)}
                     >
                         <VideoPlayer 
-                            videoSrc={"https://picsum.photos/800/600?random=41"} 
-                            thumbnailSrc={"https://picsum.photos/800/600?random=799"}
+                            videoSrc={"https://www.youtube.com/watch?v=YOUR_YOUTUBE_VIDEO_ID"} 
+                            thumbnailSrc={"https://i.ibb.co/qL4rnrSP/79c9b1923820.jpg"}
                         />
                         
                         <motion.p 
