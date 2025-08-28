@@ -1,0 +1,30 @@
+{
+  "short_name": "ГСК",
+  "name": "ГСК - Гипсокартон Бургас",
+  "description": "Професионален монтаж на гипсокартон в Бургас и региона",
+  "icons": [
+    {
+      "src": "/assets/Images/Logo/Logo.jpeg",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/assets/Images/Logo/Logo.jpeg",
+      "type": "image/jpeg",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/assets/Images/Logo/Logo.jpeg",
+      "type": "image/jpeg",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1976d2",
+  "background_color": "#ffffff",
+  "lang": "bg-BG",
+  "orientation": "portrait-primary",
+  "categories": ["business", "construction"],
+  "dir": "ltr"
+}
