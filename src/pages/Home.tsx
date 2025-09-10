@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
     Paper, 
@@ -16,6 +16,7 @@ import {
 } from '@mui/icons-material';
 import { motion, useInView } from 'framer-motion';
 import { fadeIn, fadeInLeft, fadeInRight, staggerContainer, scaleUp, bounce } from '../utils/animations';
+import { preloadGalleryImages } from '../utils/imagePreloader';
 import SEO from '../components/SEO';
 
 const Home: React.FC = () => {
@@ -32,6 +33,22 @@ const Home: React.FC = () => {
     const servicesInView = useInView(servicesRef, { once: true, amount: 0.1 });
     const featuresInView = useInView(featuresRef, { once: true, amount: 0.1 });
     const ctaInView = useInView(ctaRef, { once: true, amount: 0.2 });
+
+    // Gallery images for preloading
+    const galleryPreviewImages = [
+        { imageSrc: "https://i.ibb.co/yFs7M2TY/7c8120a55556.jpg" },
+        { imageSrc: "https://i.ibb.co/FkBss5gy/0384b11692d6.jpg" },
+        { imageSrc: "https://i.ibb.co/N6mRW52W/e1703c40efb3.jpg" },
+        { imageSrc: "https://i.ibb.co/qL4rnrSP/79c9b1923820.jpg" },
+        { imageSrc: "https://i.ibb.co/Rk1BmZZq/79347d2decea.jpg" },
+        { imageSrc: "https://i.ibb.co/RkMSTXyf/bba876ba30fb.jpg" }
+    ];
+
+    // Preload gallery images after home page is loaded
+    useEffect(() => {
+        // Start preloading gallery images after 3 seconds to ensure smooth home page experience
+        preloadGalleryImages(galleryPreviewImages, 3000);
+    }, []);
     
     const handleServiceClick = () => {
         navigate('/services');

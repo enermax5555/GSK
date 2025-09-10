@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { preloadDetailImages, isImagePreloaded } from '../utils/imagePreloader';
+import SEO from '../components/SEO';
 
 type GalleryParams = {
   serviceType?: string;
@@ -9,6 +12,7 @@ const GalleryDetail: React.FC = () => {
   const { serviceType } = useParams<GalleryParams>();
   const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [imagesPreloaded, setImagesPreloaded] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
   
@@ -27,9 +31,10 @@ const GalleryDetail: React.FC = () => {
     // In a real environment, you would need server-side code to read the directory
     // Here we'll just use a timeout to simulate loading
     setLoading(true);
+    setImagesPreloaded(false);
     
     // Simulate loading images
-    setTimeout(() => {
+    setTimeout(async () => {
       // This would be the actual image paths in a real scenario
       // In a real implementation, you'd fetch this from your backend
       const serviceImages: Record<string, string[]> = {
@@ -94,11 +99,23 @@ const GalleryDetail: React.FC = () => {
       };
 
       if (serviceType && serviceImages[serviceType]) {
-        setImages(serviceImages[serviceType]);
+        const imageList = serviceImages[serviceType];
+        setImages(imageList);
+        setLoading(false);
+
+        // Preload all images for this gallery
+        try {
+          await preloadDetailImages(imageList);
+          setImagesPreloaded(true);
+        } catch (error) {
+          console.warn('Some images failed to preload:', error);
+          setImagesPreloaded(true); // Still proceed to show images
+        }
       } else {
         setImages([]);
+        setLoading(false);
+        setImagesPreloaded(true);
       }
-      setLoading(false);
     }, 500);
   }, [serviceType]);
 
@@ -154,43 +171,97 @@ const GalleryDetail: React.FC = () => {
   }, [selectedImage, selectedImageIndex, images]);
 
   return (
-    <div className="py-20">
+    <motion.div 
+      className="py-20"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <SEO 
+        title={serviceType && serviceNames[serviceType] ? serviceNames[serviceType] : 'Галерия'}
+        description={`Разгледайте нашите проекти за ${serviceType && serviceNames[serviceType] ? serviceNames[serviceType].toLowerCase() : 'различни услуги'} в Бургас и региона. Професионално качество на изпълнение.`}
+        keywords={`${serviceType && serviceNames[serviceType] ? serviceNames[serviceType] : ''} Бургас, проекти гипсокартон, монтаж гипсокартон снимки`}
+        schemaType="WebPage"
+        canonicalUrl={`/gallery/${serviceType}`}
+        imageUrl={images.length > 0 ? images[0] : "https://i.ibb.co/yFs7M2TY/7c8120a55556.jpg"}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center mb-8">
+        <motion.div 
+          className="flex items-center mb-8"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <Link to="/gallery" className="flex items-center text-blue-600 hover:text-blue-800 transition">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
             </svg>
             Назад към галерията
           </Link>
-        </div>
+        </motion.div>
         
-        <div className="text-center mb-12">
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+        >
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             {serviceType && serviceNames[serviceType] ? serviceNames[serviceType] : 'Галерия'}
           </h1>
           <p className="text-xl text-gray-600">
             Разгледайте нашите проекти
           </p>
-        </div>
+        </motion.div>
 
         {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-600 animate-spin"></div>
+          <div className="flex flex-col justify-center items-center h-64">
+            <motion.div 
+              className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full mb-4"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            />
+            <p className="text-gray-600">Зареждаме снимките...</p>
+          </div>
+        ) : !imagesPreloaded ? (
+          <div className="flex flex-col justify-center items-center h-64">
+            <motion.div 
+              className="w-12 h-12 border-4 border-blue-400 border-t-transparent rounded-full mb-4"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            />
+            <p className="text-gray-500">Подготвяме галерията...</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             {images.map((image, index) => (
-              <div 
+              <motion.div 
                 key={index} 
                 className="rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.5, 
+                  delay: index * 0.1,
+                  ease: "easeOut"
+                }}
+                whileHover={{ y: -5 }}
                 onClick={() => openLightbox(image)}
               >
-                <div className="relative pb-[75%]">
-                  <img 
+                <div className="relative pb-[75%] bg-gray-100">
+                  <motion.img 
                     src={image} 
                     alt={`Проект ${index + 1}`} 
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.onerror = null;
@@ -198,9 +269,9 @@ const GalleryDetail: React.FC = () => {
                     }}
                   />
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
         
         {/* Lightbox */}
@@ -271,7 +342,7 @@ const GalleryDetail: React.FC = () => {
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

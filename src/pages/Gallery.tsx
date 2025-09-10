@@ -1,12 +1,15 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 import { fadeIn, fadeInLeft, fadeInRight, staggerContainer, scaleUp } from '../utils/animations';
+import { preloadGalleryImages, isImagePreloaded } from '../utils/imagePreloader';
 import SEO from '../components/SEO';
 
 const Gallery: React.FC = () => {
     const servicesRef = useRef(null);
     const statsRef = useRef(null);
+    const [imagesLoaded, setImagesLoaded] = useState<Record<string, boolean>>({});
+    const [showImages, setShowImages] = useState(false);
     
     const servicesInView = useInView(servicesRef, { once: true, amount: 0.1 });
     const statsInView = useInView(statsRef, { once: true, amount: 0.3 });
@@ -43,6 +46,34 @@ const Gallery: React.FC = () => {
             link: '/gallery/RasterniTavani'
         }
     ];
+
+    // Preload images in background after component mounts
+    useEffect(() => {
+        // Preload gallery images in background after 2 seconds (to not interfere with page load)
+        preloadGalleryImages(services, 2000);
+
+        // Set up image loading tracking
+        const loadedStates: Record<string, boolean> = {};
+        services.forEach(service => {
+            loadedStates[service.imageSrc] = isImagePreloaded(service.imageSrc);
+        });
+        setImagesLoaded(loadedStates);
+
+        // Show images after a brief delay to allow for initial animation
+        const timer = setTimeout(() => {
+            setShowImages(true);
+        }, 800);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    // Track individual image loading
+    const handleImageLoad = (imageSrc: string) => {
+        setImagesLoaded(prev => ({
+            ...prev,
+            [imageSrc]: true
+        }));
+    };
 
     return (
         <motion.div 
@@ -104,14 +135,42 @@ const Gallery: React.FC = () => {
                                 to={service.link}
                                 className="block overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300"
                             >
-                                <div className="relative pb-[75%] overflow-hidden">                                        <img
+                                <div className="relative pb-[75%] overflow-hidden bg-gray-100">
+                                    {/* Loading spinner */}
+                                    {!imagesLoaded[service.imageSrc] && (
+                                        <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
+                                            <motion.div
+                                                className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full"
+                                                animate={{ rotate: 360 }}
+                                                transition={{ 
+                                                    duration: 1, 
+                                                    repeat: Infinity, 
+                                                    ease: "linear" 
+                                                }}
+                                            />
+                                        </div>
+                                    )}
+                                    
+                                    {/* Image with fade-in animation */}
+                                    <motion.img
                                         src={service.imageSrc}
                                         alt={service.title}
                                         className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ 
+                                            opacity: showImages && imagesLoaded[service.imageSrc] ? 1 : 0 
+                                        }}
+                                        transition={{ 
+                                            duration: 0.6, 
+                                            delay: index * 0.1,
+                                            ease: "easeOut"
+                                        }}
+                                        onLoad={() => handleImageLoad(service.imageSrc)}
                                         onError={(e) => {
                                             const target = e.target as HTMLImageElement;
                                             target.onerror = null;
                                             target.src = process.env.NODE_ENV === 'production' ? '/GSK/assets/default-service.jpg' : '/assets/default-service.jpg';
+                                            handleImageLoad(service.imageSrc); // Mark as loaded even on error
                                         }}
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-80"></div>
