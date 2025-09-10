@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from './Modal';
 import { motion, AnimatePresence } from 'framer-motion';
+import { CircularProgress } from '@mui/material';
 
 interface ServiceDetailContent {
   icon: string;
@@ -30,11 +31,20 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
 
   // If the main image fails to load, we'll use a fallback
   const handleImageError = () => {
     console.error(`Failed to load image: ${imageSrc}`);
     setImageError(true);
+    setImageLoading(false);
+    setImageLoaded(true);
+  };
+
+  const handleImageLoad = () => {
+    setImageLoading(false);
+    setImageLoaded(true);
   };
 
   // Determine the image URL to use
@@ -43,13 +53,20 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
     : imageSrc;
 
   useEffect(() => {
-    // Preload the image to check if it exists
+    // Reset loading state when imageSrc changes
+    setImageLoading(true);
+    setImageLoaded(false);
+    setImageError(false);
+
+    // Preload the image to check if it exists and trigger loading states
     const img = new Image();
     img.src = imageSrc || '';
+    img.onload = handleImageLoad;
     img.onerror = handleImageError;
     
     return () => {
       // Clean up
+      img.onload = null;
       img.onerror = null;
     };
   }, [imageSrc]);
@@ -129,73 +146,130 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         whileTap="tap"
         transition={{ duration: 0.3 }}
       >
-        {/* Background Image */}
-        <motion.div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${imageUrl})` }}
-          variants={imageVariants}
-          animate={isHovered ? "hover" : ""}
-          transition={{ duration: 0.5 }}
-        />
-        
-        {/* Dark Overlay */}
-        <motion.div 
-          className="absolute inset-0 bg-black bg-opacity-40"
-          variants={overlayVariants}
-          animate={isHovered ? "hover" : ""}
-          transition={{ duration: 0.3 }}
-        />
-        
-        {/* Content */}
-        <div className="relative z-10 h-full flex flex-col justify-center items-center p-6 text-center">
-          {/* Title and Description - Hidden on hover */}
-          <AnimatePresence>
-            {!isHovered && (
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-                className="text-center"
-              >
-                <h3 className="text-2xl font-semibold mb-4 text-white">{title}</h3>
-                <p className="text-gray-200 leading-relaxed font-semibold">{description}</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          
-          {/* Learn More Button - Only visible on hover and centered */}
-          <AnimatePresence>
-            {isHovered && (
-              <motion.div 
-                className="absolute inset-0 flex items-center justify-center"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ 
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 20
+        {/* Loading Spinner Overlay */}
+        <AnimatePresence>
+          {imageLoading && (
+            <motion.div 
+              className="absolute inset-0 bg-gray-100 flex items-center justify-center z-20"
+              initial={{ opacity: 1 }}
+              exit={{ 
+                opacity: 0,
+                transition: { duration: 0.5 }
+              }}
+            >
+              <CircularProgress 
+                size={50}
+                thickness={4}
+                sx={{ 
+                  color: '#1976d2',
+                  '& .MuiCircularProgress-circle': {
+                    strokeLinecap: 'round',
+                  }
                 }}
-              >
-                <motion.button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openModal();
-                  }}
-                  className="px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-md hover:bg-blue-700 transition-colors duration-300 shadow-lg"
-                  whileHover={{ 
-                    scale: 1.05,
-                    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1)"
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Научи повече
-                </motion.button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Background Image */}
+        <AnimatePresence>
+          {imageLoaded && (
+            <motion.div 
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url(${imageUrl})` }}
+              initial={{ 
+                opacity: 0, 
+                scale: 1.1,
+                filter: "blur(10px)"
+              }}
+              animate={{ 
+                opacity: 1, 
+                scale: isHovered ? 1.05 : 1,
+                filter: isHovered ? "blur(2px)" : "blur(0px)"
+              }}
+              transition={{ 
+                opacity: { duration: 0.6, ease: "easeOut" },
+                scale: { duration: 0.5, ease: "easeOut" },
+                filter: { duration: 0.5, ease: "easeOut" }
+              }}
+            />
+          )}
+        </AnimatePresence>
+        
+        {/* Dark Overlay - Only show when image is loaded */}
+        <AnimatePresence>
+          {imageLoaded && (
+            <motion.div 
+              className="absolute inset-0 bg-black bg-opacity-40"
+              initial={{ opacity: 0 }}
+              animate={{ 
+                opacity: 1,
+                backgroundColor: isHovered ? "rgba(0, 0, 0, 0.7)" : "rgba(0, 0, 0, 0.4)"
+              }}
+              transition={{ duration: 0.3 }}
+            />
+          )}
+        </AnimatePresence>
+        
+        {/* Content - Only show when image is loaded */}
+        <AnimatePresence>
+          {imageLoaded && (
+            <motion.div 
+              className="relative z-10 h-full flex flex-col justify-center items-center p-6 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+            >
+              {/* Title and Description - Hidden on hover */}
+              <AnimatePresence>
+                {!isHovered && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-center"
+                  >
+                    <h3 className="text-2xl font-semibold mb-4 text-white">{title}</h3>
+                    <p className="text-gray-200 leading-relaxed font-semibold">{description}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              
+              {/* Learn More Button - Only visible on hover and centered */}
+              <AnimatePresence>
+                {isHovered && (
+                  <motion.div 
+                    className="absolute inset-0 flex items-center justify-center"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ 
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 20
+                    }}
+                  >
+                    <motion.button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openModal();
+                      }}
+                      className="px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-md hover:bg-blue-700 transition-colors duration-300 shadow-lg"
+                      whileHover={{ 
+                        scale: 1.05,
+                        boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1)"
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Научи повече
+                    </motion.button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
 
       {detailContent && (
