@@ -19,7 +19,7 @@ export const organizationSchema = {
     "@type": "ContactPoint",
     "telephone": "089 936 8419",
     "contactType": "customer service",
-    "email": "info@gsk-burgas.com",
+    "email": "info@гипсокартонбургас.com",
     "availableLanguage": ["Bulgarian"]
   },
   "sameAs": [
@@ -36,7 +36,7 @@ export const localBusinessSchema = {
   "image": "https://Enermax5555.github.io/GSK/assets/Images/Logo/Logo.jpeg",
   "url": "https://Enermax5555.github.io/GSK/",
   "telephone": "089 936 8419",
-  "email": "info@gsk-burgas.com",
+  "email": "info@гипсокартонбургас.com",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "ул. Примерна 123",

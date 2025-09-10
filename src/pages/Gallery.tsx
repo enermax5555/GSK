@@ -85,8 +85,8 @@ const Gallery: React.FC = () => {
         >
             <SEO 
                 title="Галерия" 
-                description="Разгледайте нашите професионално изпълнени проекти от монтаж на гипсокартон в Бургас и региона. Преградни стени, окачени тавани и други решения с високо качество."
-                keywords="галерия гипсокартон Бургас, проекти гипсокартон, монтаж гипсокартон снимки, преградни стени снимки, окачени тавани снимки"
+                description="Разгледайте нашите професионално изпълнени проекти от монтаж на гипсокартон в Бургас и региона. Преградни стени, окачени тавани и други решения с високо качество. Browse our professional drywall installation projects in Burgas."
+                keywords="галерия гипсокартон бургас, galeriya gipskarton burgas, проекти гипсокартон бургас, proekti gipskarton burgas, монтаж гипсокартон снимки, montaj gipskarton snimki, преградни стени снимки, pregradni steni snimki, окачени тавани снимки, okacheni tavani snimki, готови проекти гипсокартон, gotovi proekti gipskarton, портфолио гипсокартон, portfolio gipskarton"
                 schemaType="WebPage"
                 canonicalUrl="/gallery"
                 imageUrl="https://i.ibb.co/yFs7M2TY/7c8120a55556.jpg"

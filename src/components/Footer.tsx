@@ -68,7 +68,7 @@ const Footer: React.FC = () => {
             </p>
             <p className="flex items-start">
               <span className="text-blue-400 mr-2">✉️</span>
-              <a href="mailto:georgikalpakchiev056@gmail.com" className="text-blue-600 hover:underline">georgikalpakchiev056@gmail.com</a>
+              <a href="mailto:info@гипсокартонбургас.com" className="text-blue-600 hover:underline">info@гипсокартонбургас.com</a>
             </p>
             <p className="flex items-start">
               <span className="text-blue-400 mr-2">📍</span>

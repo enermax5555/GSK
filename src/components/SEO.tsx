@@ -35,19 +35,89 @@ const SEO: React.FC<SEOProps> = ({
       structuredData = {
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
-        'name': 'ГСК - Гипсокартон Бургас',
+        'name': 'ГСК - Гипсокартон Бургас / GSK - Gipsokarton Burgas',
+        'alternateName': [
+          'GSK Burgas',
+          'Гипсокартон Бургас',
+          'Gipsokarton Burgas',
+          'Монтаж на гипсокартон Бургас',
+          'Montaj na gipsokarton Burgas'
+        ],
         'description': description,
         'image': fullImageUrl,
         'address': {
           '@type': 'PostalAddress',
+          'streetAddress': 'Бургас център',
           'addressLocality': 'Бургас',
           'addressRegion': 'Бургас',
+          'postalCode': '8000',
           'addressCountry': 'BG'
         },
+        'geo': {
+          '@type': 'GeoCoordinates',
+          'latitude': '42.5048',
+          'longitude': '27.4626'
+        },
         'telephone': '089 936 8419',
-        'email': 'info@gsk-burgas.com',
+        'email': 'info@гипсокартонбургас.com',
         'url': siteUrl,
         'priceRange': '$$',
+        'openingHours': 'Mo-Fr 08:00-18:00, Sa 09:00-16:00',
+        'paymentAccepted': ['Cash', 'Card'],
+        'currenciesAccepted': 'BGN',
+        'serviceArea': {
+          '@type': 'City',
+          'name': 'Бургас'
+        },
+        'hasOfferCatalog': {
+          '@type': 'OfferCatalog',
+          'name': 'Услуги по гипсокартон',
+          'itemListElement': [
+            {
+              '@type': 'Offer',
+              'itemOffered': {
+                '@type': 'Service',
+                'name': 'Монтаж на гипсокартон / Montaj na gipskarton',
+                'alternateName': [
+                  'gipskarton montaj burgas',
+                  'гипсокартон монтаж бургас',
+                  'montaj gipskarton burgas',
+                  'монтаж гипсокартон бургас'
+                ],
+                'description': 'Професионален монтаж на гипсокартон в Бургас - преградни стени, окачени тавани, decoration'
+              }
+            },
+            {
+              '@type': 'Offer',
+              'itemOffered': {
+                '@type': 'Service',
+                'name': 'Окачени тавани / Okacheni tavani',
+                'alternateName': [
+                  'окачен таван бургас',
+                  'okachen tavan burgas',
+                  'suspended ceiling burgas',
+                  'окачени тавани бургас'
+                ],
+                'description': 'Монтаж на окачени тавани от гипсокартон в Бургас'
+              }
+            },
+            {
+              '@type': 'Offer',
+              'itemOffered': {
+                '@type': 'Service',
+                'name': 'Преградни стени / Pregradni steni',
+                'alternateName': [
+                  'преградна стена бургас',
+                  'pregradna stena burgas',
+                  'partition wall burgas',
+                  'преградни стени бургас'
+                ],
+                'description': 'Изграждане на преградни стени от гипсокартон в Бургас'
+              }
+            }
+          ]
+        },
+        'keywords': 'гипсокартон бургас, gipskarton burgas, монтаж на гипсокартон, montaj na gipskarton, гипсокартон услуги бургас, gipskarton uslugi burgas, окачени тавани бургас, okacheni tavani burgas, преградни стени бургас, pregradni steni burgas, строителство бургас, stroitelstvo burgas',
         'sameAs': [
           'https://facebook.com/gskburgas' // Add your actual social profiles
         ]

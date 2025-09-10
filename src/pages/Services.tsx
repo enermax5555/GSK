@@ -161,8 +161,8 @@ const Services: React.FC = () => {
         >
             <SEO 
                 title="Услуги" 
-                description="Професионален монтаж на гипсокартон в Бургас - преградни стени, окачени тавани, предстенни обшивки, акустични и растерни тавани. Топло и звукоизолация."
-                keywords="услуги гипсокартон Бургас, преградни стени, окачени тавани, предстенни обшивки, растерни тавани, акустични тавани, топлоизолация, звукоизолация"
+                description="Професионален монтаж на гипсокартон в Бургас - преградни стени, окачени тавани, предстенни обшивки, акустични и растерни тавани. Топло и звукоизолация. Professional drywall installation services in Burgas."
+                keywords="услуги гипсокартон бургас, uslugi gipskarton burgas, монтаж на гипсокартон бургас, montaj na gipskarton burgas, преградни стени бургас, pregradni steni burgas, окачени тавани бургас, okacheni tavani burgas, предстенни обшивки, predstенni obshivki, растерни тавани, rasterni tavani, акустични тавани, akustichni tavani, топлоизолация, toploizolacia, звукоизолация, zvukoizolacia, гипсокартон услуги бургас, gipskarton uslugi burgas"
                 schemaType="Service"
                 canonicalUrl="/services"
                 imageUrl="https://i.ibb.co/yFs7M2TY/7c8120a55556.jpg"

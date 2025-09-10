@@ -71,7 +71,7 @@ react-firebase-admin-app/
 ## 📞 Contact
 
 - **Телефон**: [089 936 8419](tel:0899368419)
-- **Имейл**: [georgikalpakchiev056@gmail.com](mailto:georgikalpakchiev056@gmail.com)
+- **Имейл**: [info@гипсокартонбургас.com](mailto:info@гипсокартонбургас.com)
 - **Адрес**: гр. Бургас, ул. Примерна 123
 
 ---

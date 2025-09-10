@@ -33,8 +33,8 @@ const About: React.FC = () => {
         >
             <SEO 
                 title="За нас" 
-                description="ГСК е екип от професионалисти с богат опит в монтажа на гипсокартон на конструкция в Бургас и региона. Нашите ценности включват професионализъм, коректност и внимание към детайла."
-                keywords="за нас, гипсокартон Бургас, ГСК Бургас, опитни майстори, професионален монтаж, строителна фирма Бургас"
+                description="ГСК е екип от професионалисти с богат опит в монтажа на гипсокартон на конструкция в Бургас и региона. Нашите ценности включват професионализъм, коректност и внимание към детайла. GSK is a team of professionals with extensive experience in drywall installation in Burgas."
+                keywords="за нас гск бургас, za nas gsk burgas, гипсокартон бургас, gipskarton burgas, гск бургас, gsk burgas, опитни майстори бургас, opitni maistori burgas, професионален монтаж гипсокартон, profesionalen montaj gipskarton, строителна фирма бургас, stroitelna firma burgas, екип гипсокартон, ekip gipskarton"
                 schemaType="Organization"
                 canonicalUrl="/about"
             />

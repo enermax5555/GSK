@@ -64,8 +64,8 @@ const Home: React.FC = () => {
         <>
             <SEO 
                 title="Начало" 
-                description="Професионален монтаж на гипсокартон в Бургас и региона. Преградни стени, окачени тавани, предстенни обшивки и други услуги от опитни майстори."
-                keywords="гипсокартон Бургас, монтаж гипсокартон, преградни стени, окачени тавани, предстенни обшивки, растерни тавани"
+                description="Професионален монтаж на гипсокартон в Бургас и региона. Преградни стени, окачени тавани, предстенни обшивки и други услуги от опитни майстори. Professional gipskarton installation in Burgas."
+                keywords="гипсокартон бургас, гипсокартон Бургас, gipskarton burgas, gipskarton Burgas, монтаж на гипсокартон, montaj na gipskarton, монтаж гипсокартон бургас, montaj gipskarton burgas, преградни стени бургас, pregradni steni burgas, окачени тавани бургас, okacheni tavani burgas, предстенни обшивки, predstенni obshivki, растерни тавани, rasterni tavani, строителство бургас, stroitelstvo burgas"
                 schemaType="LocalBusiness"
                 canonicalUrl="/"
             />

@@ -31,8 +31,8 @@ const Contact: React.FC = () => {
         >
             <SEO 
                 title="Контакти" 
-                description="Свържете се с ГСК за професионален монтаж на гипсокартон в Бургас. Телефон, имейл и адрес за връзка. Безплатни консултации и оферти."
-                keywords="контакти гипсокартон Бургас, телефон ГСК, адрес ГСК Бургас, безплатна оферта гипсокартон, консултация монтаж гипсокартон"
+                description="Свържете се с ГСК за професионален монтаж на гипсокартон в Бургас. Телефон, имейл и адрес за връзка. Безплатни консултации и оферти. Contact GSK for professional drywall installation in Burgas."
+                keywords="контакти гипсокартон бургас, kontakti gipskarton burgas, телефон гск бургас, telefon gsk burgas, адрес гск бургас, adres gsk burgas, безплатна оферта гипсокартон, bezplatna oferta gipskarton, консултация монтаж гипсокартон, konsultacia montaj gipskarton, връзка гипсокартон бургас, vrazka gipskarton burgas"
                 schemaType="LocalBusiness"
                 canonicalUrl="/contact"
             />
@@ -90,12 +90,12 @@ const Contact: React.FC = () => {
                                             Имейл
                                         </Typography>
                                         <Link 
-                                            href="mailto:office@gsk-build.bg" 
+                                            href="mailto:info@гипсокартонбургас.com" 
                                             underline="hover" 
                                             color="text.primary"
                                             className="hover:text-blue-600 transition-colors"
                                         >
-                                            georgikalpakchiev056@gmail.com
+                                            info@гипсокартонбургас.com
                                         </Link>
                                     </CardContent>
                                 </Card>
